@@ -33,6 +33,6 @@ namespace JamTemplate
         public static float ShootStrengthIncrement { get { return 5.0f; } }
         public static float ShootAngleIncrement { get { return 1.5f; } }
 
-        public static float LandScapeDecimator { get { return 5.0f; } }
+        public static float LandScapeDecimator { get { return 7.5f; } }
     }
 }

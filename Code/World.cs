@@ -26,8 +26,14 @@ namespace JamTemplate
 
         public void GetInput()
         {
-            _p1.GetInput();
-            _p2.GetInput();
+            if (_p1.IsPlayerActive)
+            {
+                _p1.GetInput();
+            }
+            else if (_p2.IsPlayerActive)
+            {
+                _p2.GetInput();
+            }
         }
 
         public void Update(float deltaT)
@@ -44,6 +50,8 @@ namespace JamTemplate
                 {
                     b.IsAlive = false;
                     _landscape.DamageLandscape(b.Position.X);
+                    ParticleManager.SpawnMultipleDebris(b.Position, 170, GameProperties.Color02, 5, 0.25f);
+                    ParticleManager.SpawnSmokeCloud(b.Position, 17.5f, 5.0f, GameProperties.Color09);
                 }
 
                 if (b.IsAlive)
@@ -53,6 +61,7 @@ namespace JamTemplate
             }
             _bananaList = newBananaList;
 
+            ParticleManager.Update(deltaT);
         }
 
         public void Draw(RenderWindow rw)
@@ -69,15 +78,20 @@ namespace JamTemplate
                 b.Draw(rw);
             }
 
+            ParticleManager.Draw(rw);
 
             _p1.DrawPlayerShotProperties(rw);
             _p2.DrawPlayerShotProperties(rw);
+
+            ScreenEffects.DrawFadeRadial(rw);
         }
 
         public void SwitchActivePlayer()
         {
             _p1.IsPlayerActive = !_p1.IsPlayerActive;
             _p2.IsPlayerActive = !_p2.IsPlayerActive;
+
+            Console.WriteLine(_p1.IsPlayerActive + " " + _p2.IsPlayerActive);
         }
 
         public float GetHeightAtPosition(float xval)

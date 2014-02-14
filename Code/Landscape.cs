@@ -11,11 +11,12 @@ namespace JamTemplate
     {
 
         Dictionary<float, float> _heightMap;
-        private float _landscapeSpacing = 10.0f;
+        public float Spacing { get; private set; }
         public Landscape()
         {
+            Spacing = 2.0f;
             _heightMap = new Dictionary<float, float>();
-            for (float xval = 0.0f; xval <= GameProperties.WindowSize.X; xval += _landscapeSpacing)
+            for (float xval = 0.0f; xval <= GameProperties.WindowSize.X; xval += Spacing)
             {
                 float yval = Gauss(xval);
                 _heightMap.Add(xval, yval);
@@ -40,11 +41,11 @@ namespace JamTemplate
             int i = 0;
             foreach (var v in _heightMap)
             {
-                RectangleShape shape = new RectangleShape(new Vector2f(_landscapeSpacing, v.Value));
+                RectangleShape shape = new RectangleShape(new Vector2f(Spacing, v.Value));
                 shape.Origin = new Vector2f(0, v.Value);
 
-                shape.Position = new Vector2f(i * _landscapeSpacing, 600.0f);
-                shape.FillColor = GameProperties.Color05;
+                shape.Position = new Vector2f(i * Spacing, 600.0f);
+                shape.FillColor = GameProperties.Color07;
                 rw.Draw(shape);
                 i++;
             }
@@ -92,6 +93,8 @@ namespace JamTemplate
                 }
             }
             _heightMap[lastxval] -= GameProperties.LandScapeDecimator;
+            _heightMap[lastxval - Spacing] -= GameProperties.LandScapeDecimator/2.0f;
+            _heightMap[lastxval + Spacing] -= GameProperties.LandScapeDecimator / 2.0f;
         }
     }
 }

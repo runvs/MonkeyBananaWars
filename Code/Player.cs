@@ -11,7 +11,7 @@ namespace JamTemplate
 
         #region Fields
 
-        public int playerNumber;
+        public int _playerNumber;
         public string PlayerName { get; private set; }
         private SmartSprite _sprite;
 
@@ -20,11 +20,12 @@ namespace JamTemplate
         Dictionary<Keyboard.Key, Action> _actionMap;
         private float _inputTimer = 0.0f; // time between two successive movement commands
         private World _world;
-        public bool IsPlayerActive { get; set; }
+        public bool IsPlayerActive { get { return _isPlayerActive; } set { _isPlayerActive = value; if (value == true) _remainingShots = 2; } }
+        private bool _isPlayerActive;
 
         private float _shootAngle =45.0f;
         private float _shootStrength = 200.0f;
-
+        private int _remainingShots = 2;
 
         #endregion Fields
 
@@ -34,7 +35,7 @@ namespace JamTemplate
         {
             IsPlayerActive = false;
             _world = world;
-            playerNumber = number;
+            _playerNumber = number;
 
             _actionMap = new Dictionary<Keyboard.Key, Action>();
             SetupActionMap();
@@ -58,12 +59,12 @@ namespace JamTemplate
         {
             int lower = 0;
             int upper = 800;
-            if(playerNumber == 1)
+            if(_playerNumber == 1)
             {
                 lower = 75;
                 upper = 250;
             }
-            if (playerNumber == 2)
+            if (_playerNumber == 2)
             {
                 lower = 550;
                 upper = 725;
@@ -78,7 +79,7 @@ namespace JamTemplate
 
         private void SetPlayerNumberDependendProperties()
         {
-            PlayerName = "Player" + playerNumber.ToString();
+            PlayerName = "Player" + _playerNumber.ToString();
         }
 
         public void GetInput()
@@ -95,12 +96,27 @@ namespace JamTemplate
 
         private void Shoot()
         {
-            Console.WriteLine("Shoot");
-            float angle = (float)(_shootAngle * Math.PI / 180.0f);
-            Vector2f vel = new Vector2f((float)Math.Cos(angle), -(float)Math.Sin(angle)) * _shootStrength;
+
+            float angle = 0.0f;
+            Vector2f vel = new Vector2f();
+            if (_playerNumber == 1)
+            {
+                angle = (float)(_shootAngle * Math.PI / 180.0f);
+                Console.WriteLine(_shootAngle);
+                vel = new Vector2f((float)Math.Cos(angle), -(float)Math.Sin(angle)) * _shootStrength;
+            }
+            else if (_playerNumber == 2)
+            {
+
+                angle = -(float)((180 - _shootAngle) * Math.PI / 180.0f);
+                Console.WriteLine(180 - _shootAngle);
+                vel = new Vector2f((float)Math.Cos(angle), (float)Math.Sin(angle)) * _shootStrength;
+            }
+             
             Banana b = new Banana(_world, Position + new Vector2f(0, -45.0f), vel );
 
             _world.AddBanana(b);
+            _remainingShots--;
         }
 
         private void IncreaseShootStrength()
@@ -144,6 +160,11 @@ namespace JamTemplate
                 _inputTimer -= deltaT;
             }
 			_sprite.Update(deltaT);
+
+            if (_remainingShots <= 0)
+            {
+                _world.SwitchActivePlayer();
+            }
         }
 
         public void Draw(SFML.Graphics.RenderWindow rw)
@@ -157,17 +178,22 @@ namespace JamTemplate
             if (IsPlayerActive)
             {
                 Vector2f position = new Vector2f();
-                if (playerNumber == 1)
+                if (_playerNumber == 1)
                 {
                     position = new Vector2f(0, 25);
                 }
                 
                 SmartText.DrawText("Strength: " + _shootStrength, TextAlignment.LEFT, position, GameProperties.Color01, rw);
-                if (playerNumber == 1)
+                if (_playerNumber == 1)
+                {
+                    position = new Vector2f(0, 50);
+                }
+                SmartText.DrawText("Angle: " + _shootAngle, TextAlignment.LEFT, position, GameProperties.Color01, rw);
+                if (_playerNumber == 1)
                 {
                     position = new Vector2f(0, 75);
                 }
-                SmartText.DrawText("Angle: " + _shootAngle, TextAlignment.LEFT, position, GameProperties.Color01, rw);
+                SmartText.DrawText("Shots: " + _remainingShots, TextAlignment.LEFT, position, GameProperties.Color01, rw);
             }
         }
 

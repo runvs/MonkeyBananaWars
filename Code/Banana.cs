@@ -51,6 +51,11 @@ namespace JamTemplate
             _sprite.Rotation += deltaT* 100.0f;
 
             _sprite.Update(deltaT);
+
+            if (Position.X <= 0 || Position.X >= 800)
+            {
+                IsAlive = false;
+            }
         }
 
         private Vector2f GetAcceleration()

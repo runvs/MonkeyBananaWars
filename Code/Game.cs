@@ -30,6 +30,7 @@ namespace JamTemplate
 
             ScreenEffects.Init(new Vector2u(800, 600));
             ParticleManager.SetPositionRect(new FloatRect(0, 0, 800, 600));
+            ParticleManager.Gravity = GameProperties.GravitationalAcceleration/26;
             try
             {
                 SmartText._font = new Font("../GFX/font.ttf");
