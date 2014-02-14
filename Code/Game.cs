@@ -27,6 +27,9 @@ namespace JamTemplate
 
             //TODO  Default values, replace with correct ones !
             SmartSprite._scaleVector = new Vector2f(2.0f, 2.0f);
+
+            ScreenEffects.Init(new Vector2u(800, 600));
+            ParticleManager.SetPositionRect(new FloatRect(0, 0, 800, 600));
             try
             {
                 SmartText._font = new Font("../GFX/font.ttf");

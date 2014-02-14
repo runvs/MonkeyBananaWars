@@ -1,5 +1,6 @@
 ﻿using SFML.Graphics;
 using System;
+using JamUtilities;
 
 namespace JamTemplate
 {
@@ -7,6 +8,8 @@ namespace JamTemplate
     {
 
         #region Fields
+
+        Landscape _landscape;
 
         #endregion Fields
 
@@ -29,11 +32,14 @@ namespace JamTemplate
 
         public void Draw(RenderWindow rw)
         {
-
+            rw.Clear(GameProperties.Color10);
+            ScreenEffects.DrawFadeUp(rw);
+            _landscape.Draw(rw);
         }
 
         private void InitGame()
         {
+            _landscape = new Landscape();
         }
 
         #endregion Methods
