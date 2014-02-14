@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Banana.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameProperties.cs" />
     <Compile Include="Landscape.cs" />

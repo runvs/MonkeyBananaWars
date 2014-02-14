@@ -19,7 +19,7 @@ namespace JamTemplate
             {
                 float yval = Gauss(xval);
                 _heightMap.Add(xval, yval);
-                Console.WriteLine(xval + "    " +  yval);
+                //Console.WriteLine(xval + "    " +  yval);
 
             }
         }
@@ -51,8 +51,47 @@ namespace JamTemplate
         }
 
 
+        public float GetHeightAtPosition(float xval)
+        {
+            float lastxval = 0.0f;
+            float lastyval = 0.0f;
+            float newxval = 0.0f;
+            float newyval = 0.0f;
+            foreach (var v in _heightMap)
+            {
+                if (v.Key < xval)
+                {
+                    lastxval = v.Key;
+                    lastyval = v.Value;
+                }
+                else
+                {
+                    newxval = v.Key;
+                    newyval = v.Value;
+                    break;
+                }
+            }
 
+            // TODO implement interpolation if needed
+            return lastyval;
 
+        }
 
+        internal void DamageLandscape(float xval)
+        {
+            float lastxval = 0.0f;
+            foreach (var v in _heightMap)
+            {
+                if (v.Key < xval)
+                {
+                     lastxval = v.Key;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            _heightMap[lastxval] -= GameProperties.LandScapeDecimator;
+        }
     }
 }
