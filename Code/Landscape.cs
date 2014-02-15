@@ -92,9 +92,16 @@ namespace JamTemplate
                     break;
                 }
             }
-            _heightMap[lastxval] -= GameProperties.LandScapeDecimator;
-            _heightMap[lastxval - Spacing] -= GameProperties.LandScapeDecimator/2.0f;
-            _heightMap[lastxval + Spacing] -= GameProperties.LandScapeDecimator / 2.0f;
+            try
+            {
+                _heightMap[lastxval] -= GameProperties.LandScapeDecimator;
+                _heightMap[lastxval - Spacing] -= GameProperties.LandScapeDecimator / 2.0f;
+                _heightMap[lastxval + Spacing] -= GameProperties.LandScapeDecimator / 2.0f;
+            }
+            catch (KeyNotFoundException e)
+            {
+
+            }
         }
     }
 }

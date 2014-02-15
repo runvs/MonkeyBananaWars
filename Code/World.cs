@@ -1,6 +1,7 @@
 ﻿using SFML.Graphics;
 using System;
 using JamUtilities;
+using SFML.Window;
 
 namespace JamTemplate
 {
@@ -13,7 +14,10 @@ namespace JamTemplate
         Player _p1;
         Player _p2;
 
+
+
         System.Collections.Generic.List<Banana> _bananaList;
+        System.Collections.Generic.List<AreatricCloud> _cloudList;
 
         #endregion Fields
 
@@ -30,7 +34,7 @@ namespace JamTemplate
             {
                 _p1.GetInput();
             }
-            else if (_p2.IsPlayerActive)
+            else
             {
                 _p2.GetInput();
             }
@@ -38,8 +42,15 @@ namespace JamTemplate
 
         public void Update(float deltaT)
         {
-            _p1.Update(deltaT);
-            _p2.Update(deltaT);
+            if (_p1.IsPlayerActive)
+            {
+                _p1.Update(deltaT);
+            }
+            else
+            {
+                _p2.Update(deltaT);
+            }
+            
 
             System.Collections.Generic.List<Banana> newBananaList = new System.Collections.Generic.List<Banana>();
             foreach (var b in _bananaList)
@@ -67,23 +78,40 @@ namespace JamTemplate
         public void Draw(RenderWindow rw)
         {
             rw.Clear(GameProperties.Color10);
+
+            foreach (var ac in _cloudList)
+            {
+                ac.Draw(rw);
+            }
+
             ScreenEffects.DrawFadeUp(rw);
+            
+
+
             _landscape.Draw(rw);
 
             _p1.Draw(rw);
             _p2.Draw(rw);
+
+
 
             foreach (var b in _bananaList)
             {
                 b.Draw(rw);
             }
 
+
+
             ParticleManager.Draw(rw);
+
+
 
             _p1.DrawPlayerShotProperties(rw);
             _p2.DrawPlayerShotProperties(rw);
 
             ScreenEffects.DrawFadeRadial(rw);
+
+
         }
 
         public void SwitchActivePlayer()
@@ -107,6 +135,13 @@ namespace JamTemplate
             _p1.IsPlayerActive = true;
 
             _bananaList = new System.Collections.Generic.List<Banana>();
+             
+            _cloudList = new System.Collections.Generic.List<AreatricCloud>();
+            for (int i = 0; i != 15; i++ )
+            {
+                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(0, 800), new Vector2f(0, 600)), GameProperties.Color08);
+                _cloudList.Add(ac);
+            }
         }
 
         public void AddBanana (Banana b)
