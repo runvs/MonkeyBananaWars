@@ -19,6 +19,9 @@ namespace JamTemplate
         System.Collections.Generic.List<Banana> _bananaList;
         System.Collections.Generic.List<AreatricCloud> _cloudList;
 
+        float _setUpTimer;
+        float _setUpTimerMax = GameProperties.SetupTimerMax;
+
         #endregion Fields
 
         #region Methods
@@ -42,37 +45,64 @@ namespace JamTemplate
 
         public void Update(float deltaT)
         {
-            if (_p1.IsPlayerActive)
+
+            if (_setUpTimer <= _setUpTimerMax)
             {
-                _p1.Update(deltaT);
+                
+                _p1.Position = new Vector2f(_p1.Position.X,  (float)PennerDoubleAnimation.GetValue(PennerDoubleAnimation.EquationType.BounceEaseOut, _setUpTimer-0.1f, 0, GetHeightAtPosition(_p1.Position.X), _setUpTimerMax));
+                _p2.Position = new Vector2f(_p2.Position.X, (float)PennerDoubleAnimation.GetValue(PennerDoubleAnimation.EquationType.BounceEaseOut, _setUpTimer, 0, GetHeightAtPosition(_p2.Position.X), _setUpTimerMax));
+                _setUpTimer += deltaT;
             }
             else
             {
-                _p2.Update(deltaT);
-            }
-            
-
-            System.Collections.Generic.List<Banana> newBananaList = new System.Collections.Generic.List<Banana>();
-            foreach (var b in _bananaList)
-            {
-                b.Update(deltaT);
-
-                if (b.Position.Y >= GetHeightAtPosition(b.Position.X))
+                _p1.Position = new Vector2f(_p1.Position.X, GetHeightAtPosition(_p1.Position.X));
+                _p2.Position = new Vector2f(_p2.Position.X, GetHeightAtPosition(_p2.Position.X));
+                if (_p1.IsPlayerActive)
                 {
-                    b.IsAlive = false;
-                    _landscape.DamageLandscape(b.Position.X);
-                    ParticleManager.SpawnMultipleDebris(b.Position, 170, GameProperties.Color02, 5, 0.25f);
-                    ParticleManager.SpawnSmokeCloud(b.Position, 17.5f, 5.0f, GameProperties.Color09);
+                    _p1.Update(deltaT);
+                }
+                else
+                {
+                    _p2.Update(deltaT);
                 }
 
-                if (b.IsAlive)
+                System.Collections.Generic.List<Banana> newBananaList = new System.Collections.Generic.List<Banana>();
+                foreach (var b in _bananaList)
                 {
-                    newBananaList.Add(b);
+                    b.Update(deltaT);
+
+                    if (b.Position.Y >= GetHeightAtPosition(b.Position.X))
+                    {
+                        b.IsAlive = false;
+                        _landscape.DamageLandscape(b.Position.X);
+                        ParticleManager.SpawnMultipleDebris(b.Position, 170, GameProperties.Color02, 5, 0.25f);
+                        ParticleManager.SpawnSmokeCloud(b.Position, 17.5f, 5.0f, GameProperties.Color09);
+
+                        CheckIfHitPlayer(b);
+
+                    }
+
+                    if (b.IsAlive)
+                    {
+                        newBananaList.Add(b);
+                    }
                 }
+                _bananaList = newBananaList;
             }
-            _bananaList = newBananaList;
 
             ParticleManager.Update(deltaT);
+        }
+
+        private void CheckIfHitPlayer(Banana b)
+        {
+            if (SFMLCollision.Collision.BoundingBoxTest(b.Sprite, _p1.Sprite))
+            {
+
+            }
+            if (SFMLCollision.Collision.BoundingBoxTest(b.Sprite, _p2.Sprite))
+            {
+
+            }
         }
 
         public void Draw(RenderWindow rw)
@@ -119,7 +149,7 @@ namespace JamTemplate
             _p1.IsPlayerActive = !_p1.IsPlayerActive;
             _p2.IsPlayerActive = !_p2.IsPlayerActive;
 
-            Console.WriteLine(_p1.IsPlayerActive + " " + _p2.IsPlayerActive);
+           // Console.WriteLine(_p1.IsPlayerActive + " " + _p2.IsPlayerActive);
         }
 
         public float GetHeightAtPosition(float xval)
@@ -133,8 +163,11 @@ namespace JamTemplate
             _p1 = new Player(this, 1);
             _p2 = new Player(this, 2);
             _p1.IsPlayerActive = true;
+            
+            
 
             _bananaList = new System.Collections.Generic.List<Banana>();
+
              
             _cloudList = new System.Collections.Generic.List<AreatricCloud>();
             for (int i = 0; i != 15; i++ )

@@ -27,6 +27,8 @@ namespace JamTemplate
         private float _shootStrength = 200.0f;
         private int _remainingShots = 2;
 
+        public Sprite Sprite { get { return _sprite.Sprite; } }
+
         #endregion Fields
 
         #region Methods
@@ -71,10 +73,8 @@ namespace JamTemplate
             }
 
             float posX = RandomGenerator.Random.Next(lower, upper);
-            float posY = _world.GetHeightAtPosition(posX);
-
             
-            Position = new Vector2f(posX, posY);
+            Position = new Vector2f(posX, 0);
         }
 
         private void SetPlayerNumberDependendProperties()
@@ -102,14 +102,14 @@ namespace JamTemplate
             if (_playerNumber == 1)
             {
                 angle = (float)(_shootAngle * Math.PI / 180.0f);
-                Console.WriteLine(_shootAngle);
+                //Console.WriteLine(_shootAngle);
                 vel = new Vector2f((float)Math.Cos(angle), -(float)Math.Sin(angle)) * _shootStrength;
             }
             else if (_playerNumber == 2)
             {
 
                 angle = -(float)((180 - _shootAngle) * Math.PI / 180.0f);
-                Console.WriteLine(180 - _shootAngle);
+                //Console.WriteLine(180 - _shootAngle);
                 vel = new Vector2f((float)Math.Cos(angle), (float)Math.Sin(angle)) * _shootStrength;
             }
              

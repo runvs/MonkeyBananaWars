@@ -69,6 +69,10 @@
       <Project>{fc7a5984-9b7d-494c-a49d-059dcabfb253}</Project>
       <Name>JamUtilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lib\SFMLCollision\SFMLCollision\SFMLCollision.csproj">
+      <Project>{158e487d-e39a-4f04-96cf-729a2d6e3c12}</Project>
+      <Name>SFMLCollision</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

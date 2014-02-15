@@ -16,6 +16,7 @@ namespace JamTemplate
         private World _world;
 
         SmartSprite _sprite;
+        private float _rotationfactor;
 
 
         public Banana (World world, Vector2f position, Vector2f velocity)
@@ -24,6 +25,8 @@ namespace JamTemplate
             _world = world;
             Position = position;
             Velocity = velocity;
+
+            _rotationfactor = 100.0f + 30.0f * ((float)RandomGenerator.Random.NextDouble()-0.5f);
 
             try
             {
@@ -45,10 +48,10 @@ namespace JamTemplate
 
         public void Update (float deltaT)
         {
-            Velocity = Velocity * GameProperties.FrictionCoefficient + GetAcceleration() * deltaT;
+            Velocity = Velocity * GameProperties.AirFrictionCoefficient + GetAcceleration() * deltaT;
             Position = Position + Velocity * deltaT;
 
-            _sprite.Rotation += deltaT* 100.0f;
+            _sprite.Rotation += deltaT* _rotationfactor;
 
             _sprite.Update(deltaT);
 
@@ -73,6 +76,11 @@ namespace JamTemplate
         }
 
         public bool IsAlive { get; set; }
+        public Sprite Sprite { get{return _sprite.Sprite;} }
     }
+
+
+
+    
 
 }

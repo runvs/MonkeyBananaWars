@@ -26,13 +26,14 @@ namespace JamTemplate
 
         public static Vector2f WindowSize { get{return new Vector2f(800.0f, 600.0f);} }
 
-
-        public static Vector2f GravitationalAcceleration { get { return new Vector2f(0,80.0f); } }
-        public static float FrictionCoefficient { get { return 0.99995f; } }
+        public static Vector2f GravitationalAcceleration { get { return new Vector2f(0,90.0f); } }
+        public static float AirFrictionCoefficient { get { return 0.99995f; } }
 
         public static float ShootStrengthIncrement { get { return 5.0f; } }
         public static float ShootAngleIncrement { get { return 1.5f; } }
 
-        public static float LandScapeDecimator { get { return 7.5f; } }
+        public static float LandScapeDecimator { get { return 8.5f; } }
+
+        public static float SetupTimerMax { get { return 2.1f; } }
     }
 }
