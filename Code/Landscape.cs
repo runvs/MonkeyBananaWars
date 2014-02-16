@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JamUtilities;
 using SFML.Graphics;
 using SFML.Window;
 
@@ -12,18 +13,22 @@ namespace JamTemplate
 
         Dictionary<float, float> _heightMap;
         public float Spacing { get; private set; }
+
         public Landscape()
         {
+            
+
             Spacing = 2.0f;
             _heightMap = new Dictionary<float, float>();
             for (float xval = 0.0f; xval <= GameProperties.WindowSize.X; xval += Spacing)
             {
-                float yval = Gauss(xval);
+                float yval = Gauss(xval) + Noise(xval);
                 _heightMap.Add(xval, yval);
                 //Console.WriteLine(xval + "    " +  yval);
-
             }
         }
+
+
 
         private float mu = 400.0f;
         private float sigma = 75.0f;
@@ -33,6 +38,22 @@ namespace JamTemplate
         private float Gauss(float xval)
         {
             return offset + scaling * (float)((1/sigma*Math.Sqrt(2*Math.PI)) * Math.Exp(-0.5*((xval-mu)/sigma)*(xval-mu)/sigma));
+        }
+        private float freq1 = 25.0f;
+        private float freq2 = 48;
+        private float freq3 = 60;
+
+        private float offs1 = 15;
+        private float offs2 = 0;
+        private float offs3 = 20;
+
+        private float factor1 = 5;
+        private float factor2 = 7;
+        private float factor3 = 0;
+        
+        private float Noise(float xval)
+        {
+            return (float)(factor1 * Math.Sin((xval + offs1) / freq1) + factor2 * Math.Sin((xval + offs2) / freq2) + factor3 * Math.Sin((xval + offs3) / freq3));
         }
 
 
