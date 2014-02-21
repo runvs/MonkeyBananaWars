@@ -22,6 +22,8 @@ namespace JamTemplate
         float _setUpTimer;
         float _setUpTimerMax = GameProperties.SetupTimerMax;
 
+        Vector2f _windAcceleration;
+
         #endregion Fields
 
         #region Methods
@@ -29,6 +31,11 @@ namespace JamTemplate
         public World()
         {
             InitGame();
+        }
+
+        public Vector2f GetWindAcceleration()
+        {
+            return _windAcceleration;
         }
 
         public void GetInput()
@@ -51,7 +58,9 @@ namespace JamTemplate
                 
                 _p1.Position = new Vector2f(_p1.Position.X,  (float)PennerDoubleAnimation.GetValue(PennerDoubleAnimation.EquationType.BounceEaseOut, _setUpTimer-0.1f, 0, GetHeightAtPosition(_p1.Position.X), _setUpTimerMax));
                 _p2.Position = new Vector2f(_p2.Position.X, (float)PennerDoubleAnimation.GetValue(PennerDoubleAnimation.EquationType.BounceEaseOut, _setUpTimer, 0, GetHeightAtPosition(_p2.Position.X), _setUpTimerMax));
+                //_p1.Sprite.Scale(1 + 0.5f * (float)PennerDoubleAnimation.GetValue(PennerDoubleAnimation.EquationType.BounceEaseOut, _setUpTimer - 0.1f, 0,1, _setUpTimerMax));
                 _setUpTimer += deltaT;
+                
             }
             else
             {
@@ -95,11 +104,11 @@ namespace JamTemplate
 
         private void CheckIfHitPlayer(Banana b)
         {
-            if (SFMLCollision.Collision.BoundingBoxTest(b.Sprite, _p1.Sprite))
+            if (SFMLCollision.Collision.BoundingBoxTest(b.Sprite, _p1.Sprite.Sprite))
             {
 
             }
-            if (SFMLCollision.Collision.BoundingBoxTest(b.Sprite, _p2.Sprite))
+            if (SFMLCollision.Collision.BoundingBoxTest(b.Sprite, _p2.Sprite.Sprite))
             {
 
             }
@@ -113,7 +122,6 @@ namespace JamTemplate
             {
                 ac.Draw(rw);
             }
-
             ScreenEffects.DrawFadeUp(rw);
             
 
@@ -140,15 +148,13 @@ namespace JamTemplate
             _p2.DrawPlayerShotProperties(rw);
 
             ScreenEffects.DrawFadeRadial(rw);
-
-
         }
 
         public void SwitchActivePlayer()
         {
             _p1.IsPlayerActive = !_p1.IsPlayerActive;
             _p2.IsPlayerActive = !_p2.IsPlayerActive;
-
+            _windAcceleration = RandomGenerator.GetRandomVector2fSquare(10);
            // Console.WriteLine(_p1.IsPlayerActive + " " + _p2.IsPlayerActive);
         }
 

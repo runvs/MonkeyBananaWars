@@ -27,7 +27,7 @@ namespace JamTemplate
         private float _shootStrength = 200.0f;
         private int _remainingShots = 2;
 
-        public Sprite Sprite { get { return _sprite.Sprite; } }
+        public SmartSprite Sprite { get { return _sprite; } }
 
         #endregion Fields
 
@@ -194,6 +194,7 @@ namespace JamTemplate
                     SmartText.DrawText("Angle: " + _shootAngle, TextAlignment.LEFT, position, GameProperties.Color01, rw);
                     position = new Vector2f(10, 75);
                     SmartText.DrawText("Shots: " + _remainingShots, TextAlignment.LEFT, position, GameProperties.Color01, rw);
+                   
                 }
                 if (_playerNumber == 2)
                 {
@@ -204,6 +205,9 @@ namespace JamTemplate
                     position = new Vector2f(790, 75);
                     SmartText.DrawText("Shots: " + _remainingShots, TextAlignment.RIGHT, position, GameProperties.Color01, rw);
                 }
+
+                position = new Vector2f(400, 125);
+                SmartText.DrawText("Wind " + _world.GetWindAcceleration().ToString(), TextAlignment.MID, position, rw);
             }
         }
 

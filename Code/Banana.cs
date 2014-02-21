@@ -63,7 +63,7 @@ namespace JamTemplate
 
         private Vector2f GetAcceleration()
         {
-            return GameProperties.GravitationalAcceleration;
+            return GameProperties.GravitationalAcceleration + _world.GetWindAcceleration();
         }
 
 
