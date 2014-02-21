@@ -20,7 +20,7 @@ namespace JamTemplate
         Dictionary<Keyboard.Key, Action> _actionMap;
         private float _inputTimer = 0.0f; // time between two successive movement commands
         private World _world;
-        public bool IsPlayerActive { get { return _isPlayerActive; } set { _isPlayerActive = value; _inputTimer += 0.25f; if (value == true) _remainingShots = 5; } }
+        public bool IsPlayerActive { get { return _isPlayerActive; } set { _isPlayerActive = value; _inputTimer += 0.25f; if (value == true) _remainingShots = 1; } }
         private bool _isPlayerActive;
 
         private float _shootAngle =45.0f;
@@ -224,9 +224,6 @@ namespace JamTemplate
                     position = new Vector2f(790, 75);
                     //SmartText.DrawText("Shots: " + _remainingShots, TextAlignment.RIGHT, position, GameProperties.Color01, rw);
                 }
-
-                position = new Vector2f(400, 125);
-                SmartText.DrawText("Wind " + _world.GetWindAcceleration().ToString(), TextAlignment.MID, position, rw);
             }
         }
 

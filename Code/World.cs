@@ -173,15 +173,61 @@ namespace JamTemplate
 
             _p1.DrawPlayerShotProperties(rw);
             _p2.DrawPlayerShotProperties(rw);
+            DrawWindStrengthHudInfo(rw);
 
             ScreenEffects.DrawFadeRadial(rw);
+        }
+
+
+        private void DrawWindStrengthHudInfo(RenderWindow rw)
+        {
+            Vector2f position = new Vector2f(400, 125);
+            //SmartText.DrawText("Wind " + GetWindAcceleration().ToString(), TextAlignment.MID, position, rw);
+
+            float xspan = GetWindAcceleration().X /20.0f * 175.0f;
+
+
+
+            RectangleShape shape = new RectangleShape(new Vector2f(xspan , 28));
+            shape.Origin = new Vector2f(0, 28 / 2);
+            shape.FillColor = GameProperties.Color01;
+            shape.Position = new Vector2f(400, 15+15);
+            rw.Draw(shape);
+
+
+            shape = new RectangleShape(new Vector2f(xspan/1.25f, 24));
+            shape.Origin = new Vector2f(0, 24 / 2);
+            shape.FillColor = GameProperties.Color02;
+            shape.Position = new Vector2f(400, 15+15);
+            rw.Draw(shape);
+
+
+            shape = new RectangleShape(new Vector2f(xspan / 2.0f, 18));
+            shape.Origin = new Vector2f(0, 18 / 2);
+            shape.FillColor = GameProperties.Color03;
+            shape.Position = new Vector2f(400, 15+15);
+            rw.Draw(shape);
+
+            shape = new RectangleShape(new Vector2f(xspan / 2.75f, 16));
+            shape.Origin = new Vector2f(0, 16 / 2);
+            shape.FillColor = GameProperties.Color04;
+            shape.Position = new Vector2f(400, 15 + 15);
+            rw.Draw(shape);
+
+
+            shape = new RectangleShape(new Vector2f(2, 30));
+            shape.FillColor = GameProperties.Color05;
+
+            shape.Position = new Vector2f(400, 15);
+            rw.Draw(shape);
+
+
         }
 
         public void SwitchActivePlayer()
         {
             _p1.IsPlayerActive = !_p1.IsPlayerActive;
             _p2.IsPlayerActive = !_p2.IsPlayerActive;
-           // Console.WriteLine(_p1.IsPlayerActive + " " + _p2.IsPlayerActive);
         }
 
         public void ChangeWindAcceleration()

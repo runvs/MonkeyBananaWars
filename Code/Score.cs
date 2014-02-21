@@ -69,7 +69,7 @@ namespace JamTemplate
             }
 
             SmartText.DrawText("angle", TextAlignment.LEFT, new SFML.Window.Vector2f(xposp1start + 70.0f, yposstart + 200), new Vector2f(0.75f, 0.75f), GameProperties.Color01, rw);
-            SmartText.DrawText("strenght", TextAlignment.RIGHT, new SFML.Window.Vector2f(xposp1start - 5, yposstart+80), new Vector2f(0.75f, 0.75f), GameProperties.Color01, rw);
+            SmartText.DrawText("strength", TextAlignment.RIGHT, new SFML.Window.Vector2f(xposp1start - 5, yposstart+80), new Vector2f(0.75f, 0.75f), GameProperties.Color01, rw);
 
 
             SmartText.DrawText("Player 2", TextAlignment.LEFT, new SFML.Window.Vector2f(xposp2start, 200), GameProperties.Color01, rw);
@@ -88,7 +88,7 @@ namespace JamTemplate
                 rw.Draw(circ);
             }
             SmartText.DrawText("angle", TextAlignment.LEFT, new SFML.Window.Vector2f(xposp2start + 70.0f, yposstart + 200), new Vector2f(0.75f, 0.75f), GameProperties.Color01, rw);
-            SmartText.DrawText("strenght", TextAlignment.RIGHT, new SFML.Window.Vector2f(xposp2start - 5, yposstart+80), new Vector2f(0.75f, 0.75f), GameProperties.Color01, rw);
+            SmartText.DrawText("strength", TextAlignment.RIGHT, new SFML.Window.Vector2f(xposp2start - 5, yposstart+80), new Vector2f(0.75f, 0.75f), GameProperties.Color01, rw);
         }
 
         #endregion Methods
