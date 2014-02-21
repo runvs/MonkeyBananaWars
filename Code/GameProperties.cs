@@ -35,5 +35,7 @@ namespace JamTemplate
         public static float LandScapeDecimator { get { return 8.5f; } }
 
         public static float SetupTimerMax { get { return 2.1f; } }
+
+        public static float WindChangeTimer { get { return 5.0f; } }
     }
 }

@@ -23,6 +23,7 @@ namespace JamTemplate
         float _setUpTimerMax = GameProperties.SetupTimerMax;
 
         Vector2f _windAcceleration;
+        private float _windChangeTimer;
 
         #endregion Fields
 
@@ -64,6 +65,14 @@ namespace JamTemplate
             }
             else
             {
+                _windChangeTimer -= deltaT;
+                if (_windChangeTimer <= 0.0f)
+                {
+                    ChangeWindAcceleration();
+                    _windChangeTimer += GameProperties.WindChangeTimer;
+                }
+
+
                 _p1.Position = new Vector2f(_p1.Position.X, GetHeightAtPosition(_p1.Position.X));
                 _p2.Position = new Vector2f(_p2.Position.X, GetHeightAtPosition(_p2.Position.X));
                 if (_p1.IsPlayerActive)
@@ -106,12 +115,24 @@ namespace JamTemplate
         {
             if (SFMLCollision.Collision.BoundingBoxTest(b.Sprite, _p1.Sprite.Sprite))
             {
-
+                _p1.IsDead = true;
             }
             if (SFMLCollision.Collision.BoundingBoxTest(b.Sprite, _p2.Sprite.Sprite))
             {
-
+                _p2.IsDead = true;
             }
+        }
+
+        public bool IsGameOver()
+        {
+            bool ret = false;
+            if (_p1.IsDead || _p2.IsDead)
+            {
+                WorldScore = new Score(this);
+                ret = true;
+            }
+
+            return ret;
         }
 
         public void Draw(RenderWindow rw)
@@ -154,8 +175,13 @@ namespace JamTemplate
         {
             _p1.IsPlayerActive = !_p1.IsPlayerActive;
             _p2.IsPlayerActive = !_p2.IsPlayerActive;
-            _windAcceleration = RandomGenerator.GetRandomVector2fSquare(10);
            // Console.WriteLine(_p1.IsPlayerActive + " " + _p2.IsPlayerActive);
+        }
+
+        public void ChangeWindAcceleration()
+        {
+            _windAcceleration = RandomGenerator.GetRandomVector2fSquare(20);
+            _windAcceleration.Y = 0;
         }
 
         public float GetHeightAtPosition(float xval)
@@ -193,5 +219,7 @@ namespace JamTemplate
 
         #endregion Methods
 
+
+        public Score WorldScore { get; private set; }
     }
 }

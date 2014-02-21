@@ -97,7 +97,11 @@ namespace JamTemplate
             {
                 _myWorld.Update(deltaT);
 
-               // Game End Condition
+                if (_myWorld.IsGameOver())
+                {
+                    _gameStats = _myWorld.WorldScore;
+                    ChangeGameState(State.Score);
+                }
 
             }
             else if (_gameState == State.Menu && this._timeTilNextInput <= 0.0f)

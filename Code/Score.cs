@@ -2,8 +2,10 @@
 
 namespace JamTemplate
 {
-    class Score
+    public class Score
     {
+
+        World _world;
 
         #region Fields
 
@@ -11,8 +13,11 @@ namespace JamTemplate
 
         #region Methods
 
-        public Score()
+        public Score(World world)
         {
+            _world = world;
+
+            // TODO fill Entries
         }
 
         public void Draw(RenderWindow rw)

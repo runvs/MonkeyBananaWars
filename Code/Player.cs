@@ -36,6 +36,7 @@ namespace JamTemplate
         public Player(World world, int number)
         {
             IsPlayerActive = false;
+            IsDead = false;
             _world = world;
             _playerNumber = number;
 
@@ -122,9 +123,9 @@ namespace JamTemplate
         private void IncreaseShootStrength()
         {
             _shootStrength += GameProperties.ShootStrengthIncrement;
-            if (_shootStrength >= 500)
+            if (_shootStrength >= 400)
             {
-                _shootStrength = 500;
+                _shootStrength = 400;
             }
         }
         private void DecreaseShootStrength()
@@ -238,10 +239,13 @@ namespace JamTemplate
         private void LoadGraphics()
         {
            _sprite = new SmartSprite("../GFX/player.png");
+           _sprite.Scale(0.75f);
            _sprite.Sprite.Origin = new Vector2f(_sprite.Sprite.GetLocalBounds().Width / 2, _sprite.Sprite.GetLocalBounds().Height);
         }
 
         #endregion Methods
 
+
+        public bool IsDead { get; set; }
     }
 }
