@@ -11,8 +11,8 @@ namespace JamTemplate
         #region Fields
 
         Landscape _landscape;
-        Player _p1;
-        Player _p2;
+        public Player _p1;
+        public Player _p2;
 
 
 
@@ -41,6 +41,12 @@ namespace JamTemplate
 
         public void GetInput()
         {
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.L))
+            {
+                _p1.IsDead = true;
+            }
+
             if (_p1.IsPlayerActive)
             {
                 _p1.GetInput();
@@ -196,8 +202,6 @@ namespace JamTemplate
             _p2 = new Player(this, 2);
             _p1.IsPlayerActive = true;
             
-            
-
             _bananaList = new System.Collections.Generic.List<Banana>();
 
              
