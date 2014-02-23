@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JamUtilities;
+using JamUtilities.Particles;
 using SFML.Graphics;
 using SFML.Window;
 
@@ -14,9 +15,25 @@ namespace JamTemplate
         Dictionary<float, float> _heightMap;
         public float Spacing { get; private set; }
 
+        private List<Color> _colorList;
+
+
         public Landscape()
         {
-            
+            _colorList = ColorList.GetColorList( GameProperties.Color09, GameProperties.Color08,GameProperties.Color07,GameProperties.Color06, GameProperties.Color05);
+
+            ParticleProperties props = new ParticleProperties();
+            props.Type = ParticleManager.ParticleType.PT_RainDrop;
+            props.col = GameProperties.Color02;
+            props.lifeTime = 10.0f;
+            props.sizeMultiple = 0.0f;
+            props.sizeSingle = 10;
+            props.DoRotation = false;
+            props.AffectedByGravity = true;
+
+            ParticleEmitter emitter = new ParticleEmitter(new RectangleShape(new Vector2f(800,5)), props, 50);
+
+            ParticleManager.AddEmitter(emitter);
 
             Spacing = 2.0f;
             _heightMap = new Dictionary<float, float>();
@@ -24,7 +41,6 @@ namespace JamTemplate
             {
                 float yval = Gauss(xval) + Noise(xval);
                 _heightMap.Add(xval, yval);
-                //Console.WriteLine(xval + "    " +  yval);
             }
         }
 
@@ -66,7 +82,10 @@ namespace JamTemplate
                 shape.Origin = new Vector2f(0, v.Value);
 
                 shape.Position = new Vector2f(i * Spacing, 600.0f);
-                shape.FillColor = GameProperties.Color07;
+
+
+
+                shape.FillColor = _colorList[(int)(v.Value/500 *_colorList.Count)%_colorList.Count];
                 rw.Draw(shape);
                 i++;
             }

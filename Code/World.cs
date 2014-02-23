@@ -2,6 +2,7 @@
 using System;
 using JamUtilities;
 using SFML.Window;
+using JamUtilities.Particles;
 
 namespace JamTemplate
 {
