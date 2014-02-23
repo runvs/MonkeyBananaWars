@@ -80,7 +80,7 @@ namespace JamTemplate
 
         private void GetInputCreditsScore()
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape) || Keyboard.IsKeyPressed(Keyboard.Key.Return) || Keyboard.IsKeyPressed(Keyboard.Key.Space))
             {
                 ChangeGameState(State.Menu, 1.0f);
             }
@@ -150,10 +150,10 @@ namespace JamTemplate
         private void DrawCredits(RenderWindow rw)
         {
 
-            SmartText.DrawText("$GameTitle$", TextAlignment.MID, new Vector2f(400.0f, 20.0f), 1.5f, rw);
+            SmartText.DrawText("Monkey Banana Wars", TextAlignment.MID, new Vector2f(400.0f, 20.0f), 1.5f, rw);
 
             SmartText.DrawText("A Game by", TextAlignment.MID, new Vector2f(400.0f, 100.0f), 0.75f, rw);
-            SmartText.DrawText("$DeveloperNames$", TextAlignment.MID, new Vector2f(400.0f, 135.0f), rw);
+            SmartText.DrawText("Simon Weis @Laguna_999", TextAlignment.MID, new Vector2f(400.0f, 135.0f), rw);
 
             SmartText.DrawText("Visual Studio 2012 \t C#", TextAlignment.MID, new Vector2f(400, 170), 0.75f, rw);
             SmartText.DrawText("aseprite \t SFML.NET 2.1", TextAlignment.MID, new Vector2f(400, 200), 0.75f, rw);
@@ -161,7 +161,7 @@ namespace JamTemplate
             SmartText.DrawText("Thanks to", TextAlignment.MID, new Vector2f(400, 350), 0.75f, rw);
             SmartText.DrawText("Families & Friends for their great support", TextAlignment.MID, new Vector2f(400, 375), 0.75f, rw);
 
-            SmartText.DrawText("Created $Date$", TextAlignment.MID, new Vector2f(400.0f, 500.0f), 0.75f, rw);
+            SmartText.DrawText("Created February 2014", TextAlignment.MID, new Vector2f(400.0f, 500.0f), 0.75f, rw);
 
         }
 

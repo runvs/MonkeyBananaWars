@@ -37,5 +37,7 @@ namespace JamTemplate
         public static float SetupTimerMax { get { return 2.1f; } }
 
         public static float WindChangeTimer { get { return 5.0f; } }
+
+        public static float MaxWindSpeedAcceleration { get { return 15; } }
     }
 }

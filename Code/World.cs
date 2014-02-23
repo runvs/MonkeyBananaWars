@@ -185,7 +185,7 @@ namespace JamTemplate
             Vector2f position = new Vector2f(400, 125);
             //SmartText.DrawText("Wind " + GetWindAcceleration().ToString(), TextAlignment.MID, position, rw);
 
-            float xspan = GetWindAcceleration().X /20.0f * 175.0f;
+            float xspan = GetWindAcceleration().X /GameProperties.MaxWindSpeedAcceleration * 175.0f;
 
 
 
@@ -233,7 +233,7 @@ namespace JamTemplate
 
         public void ChangeWindAcceleration()
         {
-            _windAcceleration = RandomGenerator.GetRandomVector2fSquare(20);
+            _windAcceleration = RandomGenerator.GetRandomVector2fSquare(GameProperties.MaxWindSpeedAcceleration);
             _windAcceleration.Y = 0;
         }
 
