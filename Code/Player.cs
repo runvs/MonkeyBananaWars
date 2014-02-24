@@ -27,6 +27,8 @@ namespace JamTemplate
         private float _shootStrength = 200.0f;
         private int _remainingShots = 1;
 
+        static private Sprite _glowSprite;
+        static private Texture _glowspriteTexture;
         public struct xy
         {
             public xy (float x, float y)
@@ -50,6 +52,12 @@ namespace JamTemplate
 
         public Player(World world, int number)
         {
+            
+            if(_glowspriteTexture == null)
+            {
+                GlowSpriteCreator.CreateRadialGlow(out _glowspriteTexture, 10, GameProperties.Color03, 0.9f, PennerDoubleAnimation.EquationType.QuintEaseOut);
+                _glowSprite = new Sprite(_glowspriteTexture);
+            }
             IsPlayerActive = false;
             IsDead = false;
             _world = world;
@@ -114,25 +122,25 @@ namespace JamTemplate
         private void Shoot()
         {
 
-            float angle = 0.0f;
+            double angleInRad = 0.0f;
             Vector2f vel = new Vector2f();
             if (_playerNumber == 1)
             {
-                angle = (float)(_shootAngle * Math.PI / 180.0f);
+                angleInRad = MathStuff.DegreeToRadian(_shootAngle);
                 //Console.WriteLine(_shootAngle);
-                vel = new Vector2f((float)Math.Cos(angle), -(float)Math.Sin(angle)) * _shootStrength;
+                vel = new Vector2f((float)Math.Cos(angleInRad), -(float)Math.Sin(angleInRad)) * _shootStrength;
             }
             else if (_playerNumber == 2)
             {
 
-                angle = -(float)((180 - _shootAngle) * Math.PI / 180.0f);
+                angleInRad = MathStuff.DegreeToRadian(_shootAngle);
                 //Console.WriteLine(180 - _shootAngle);
-                vel = new Vector2f((float)Math.Cos(angle), (float)Math.Sin(angle)) * _shootStrength;
+                vel = new Vector2f(-(float)Math.Cos(angleInRad), -(float)Math.Sin(angleInRad)) * _shootStrength;
             }
 
             _shothistory.Add(new xy(_shootAngle,_shootStrength));
-             
-            Banana b = new Banana(_world, Position + new Vector2f(0, -45.0f), vel );
+
+            Banana b = new Banana(_world, Position - new Vector2f(0, _sprite.Sprite.GetGlobalBounds().Height), vel);
 
             _world.AddBanana(b);
             _remainingShots--;
@@ -223,6 +231,36 @@ namespace JamTemplate
                     SmartText.DrawText("Angle: " + _shootAngle, TextAlignment.RIGHT, position, GameProperties.Color01, rw);
                     position = new Vector2f(790, 75);
                     //SmartText.DrawText("Shots: " + _remainingShots, TextAlignment.RIGHT, position, GameProperties.Color01, rw);
+                }
+            }
+        }
+
+
+        public void DrawPlayerAimingLine (RenderWindow rw)
+        {
+
+            if (IsPlayerActive)
+            {
+                double angleInRad = MathStuff.DegreeToRadian(_shootAngle);
+                if (_playerNumber == 1)
+                {
+                    for (int i = 1; i <= 27; i += 3)
+                    {
+                        Vector2f position = Position - new Vector2f(0, _sprite.Sprite.GetGlobalBounds().Height) + new Vector2f((float)Math.Cos(angleInRad), -(float)Math.Sin(angleInRad)) * _shootStrength * i / 100;
+
+                        _glowSprite.Position = position;
+                        rw.Draw(_glowSprite);
+                    }
+                }
+                else if (_playerNumber == 2)
+                {
+                    for (int i = 1; i <= 27; i += 3)
+                    {
+                        Vector2f position = Position - new Vector2f(0, _sprite.Sprite.GetGlobalBounds().Height) + new Vector2f(-(float)Math.Cos(angleInRad), -(float)Math.Sin(angleInRad)) * _shootStrength * i / 100;
+
+                        _glowSprite.Position = position;
+                        rw.Draw(_glowSprite);
+                    }
                 }
             }
         }

@@ -16,24 +16,13 @@ namespace JamTemplate
         public float Spacing { get; private set; }
 
         private List<Color> _colorList;
-
+       
 
         public Landscape()
         {
             _colorList = ColorList.GetColorList( GameProperties.Color09, GameProperties.Color08,GameProperties.Color07,GameProperties.Color06, GameProperties.Color05);
 
-            ParticleProperties props = new ParticleProperties();
-            props.Type = ParticleManager.ParticleType.PT_RainDrop;
-            props.col = GameProperties.Color02;
-            props.lifeTime = 10.0f;
-            props.sizeMultiple = 0.0f;
-            props.sizeSingle = 10;
-            props.DoRotation = false;
-            props.AffectedByGravity = true;
-
-            ParticleEmitter emitter = new ParticleEmitter(new RectangleShape(new Vector2f(800,5)), props, 50);
-
-            ParticleManager.AddEmitter(emitter);
+            ParticleManager.CreateAreaRain(new FloatRect(-500, 0, 1500, 20), GameProperties.Color02);
 
             Spacing = 2.0f;
             _heightMap = new Dictionary<float, float>();

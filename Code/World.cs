@@ -26,6 +26,8 @@ namespace JamTemplate
         Vector2f _windAcceleration;
         private float _windChangeTimer;
 
+        private AccelerationArea _rainAccelerationArea;
+
         #endregion Fields
 
         #region Methods
@@ -101,7 +103,7 @@ namespace JamTemplate
                         b.IsAlive = false;
                         _landscape.DamageLandscape(b.Position.X);
                         ParticleManager.SpawnMultipleDebris(b.Position, 170, GameProperties.Color02, 5, 0.25f);
-                        ParticleManager.SpawnSmokeCloud(b.Position, 17.5f, 5.0f, GameProperties.Color09);
+                        ParticleManager.SpawnSmokeCloud(b.Position, 17.5f, 5.0f, GameProperties.Color06);
 
                         CheckIfHitPlayer(b);
 
@@ -174,6 +176,8 @@ namespace JamTemplate
 
             _p1.DrawPlayerShotProperties(rw);
             _p2.DrawPlayerShotProperties(rw);
+            _p1.DrawPlayerAimingLine(rw);
+            _p2.DrawPlayerAimingLine(rw);
             DrawWindStrengthHudInfo(rw);
 
             ScreenEffects.DrawFadeRadial(rw);
@@ -235,6 +239,7 @@ namespace JamTemplate
         {
             _windAcceleration = RandomGenerator.GetRandomVector2fSquare(GameProperties.MaxWindSpeedAcceleration);
             _windAcceleration.Y = 0;
+            _rainAccelerationArea.Acceleration = _windAcceleration*10.0f;
         }
 
         public float GetHeightAtPosition(float xval)
@@ -250,6 +255,8 @@ namespace JamTemplate
             _p1.IsPlayerActive = true;
             
             _bananaList = new System.Collections.Generic.List<Banana>();
+            _rainAccelerationArea = new AccelerationArea(new FloatRect(-500, 0, 1500, 600), new Vector2f(0, 0));
+            ParticleManager.AddAccelerationArea(_rainAccelerationArea);
 
              
             _cloudList = new System.Collections.Generic.List<AreatricCloud>();

@@ -30,7 +30,7 @@ namespace JamTemplate
             SmartSprite._scaleVector = new Vector2f(2.0f, 2.0f);
 
             ScreenEffects.Init(new Vector2u(800, 600));
-            ParticleManager.SetPositionRect(new FloatRect(0, 0, 800, 600));
+            ParticleManager.SetPositionRect(new FloatRect(-500, 0, 1400, 600));
             ParticleManager.Gravity = GameProperties.GravitationalAcceleration/26;
             try
             {
@@ -145,6 +145,8 @@ namespace JamTemplate
 
             SmartText.DrawText("[C]redits", TextAlignment.LEFT, new Vector2f(30.0f, 550.0f), GameProperties.Color02, rw);
 
+            ScreenEffects.DrawFadeRadial(rw);
+
         }
 
         private void DrawCredits(RenderWindow rw)
@@ -163,6 +165,7 @@ namespace JamTemplate
 
             SmartText.DrawText("Created February 2014", TextAlignment.MID, new Vector2f(400.0f, 500.0f), 0.75f, rw);
 
+            ScreenEffects.DrawFadeRadial(rw);
         }
 
         private void ChangeGameState(State newState, float inputdeadTime = 0.5f)
