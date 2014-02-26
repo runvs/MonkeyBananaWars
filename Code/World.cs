@@ -3,6 +3,7 @@ using System;
 using JamUtilities;
 using SFML.Window;
 using JamUtilities.Particles;
+using SFML.Audio;
 
 namespace JamTemplate
 {
@@ -15,10 +16,21 @@ namespace JamTemplate
         public Player _p1;
         public Player _p2;
 
+        private float _flashTimer = 0.0f;
 
+        private Music _rainSample1;
+        private Music _rainSample2;
+
+        private SoundBuffer _flashSoundBuffer;
+        private Sound _flashSound;
+
+        private SoundBuffer _hitSoundBuffer;
+        private Sound _hitSound;
 
         System.Collections.Generic.List<Banana> _bananaList;
         System.Collections.Generic.List<AreatricCloud> _cloudList;
+
+        System.Collections.Generic.List<RectangleShape> _flashShapeList;
 
         float _setUpTimer;
         float _setUpTimerMax = GameProperties.SetupTimerMax;
@@ -27,6 +39,7 @@ namespace JamTemplate
         private float _windChangeTimer;
 
         private AccelerationArea _rainAccelerationArea;
+        private float _totalTime;
 
         #endregion Fields
 
@@ -34,7 +47,31 @@ namespace JamTemplate
 
         public World()
         {
+            LoadSounds();
             InitGame();
+        }
+
+        private void LoadSounds()
+        {
+            try
+            {
+                _rainSample1 = new Music("../SFX/rain.ogg");
+                _rainSample2 = new Music("../SFX/rain.ogg");
+
+                _flashSoundBuffer = new SoundBuffer("../SFX/flash.ogg");
+                _flashSound = new Sound(_flashSoundBuffer);
+                _flashSound.Volume = 35.0f;
+
+                _hitSoundBuffer = new SoundBuffer("../SFX/hit.wav");
+                _hitSound = new Sound(_hitSoundBuffer);
+
+            }
+            catch (SFML.LoadingFailedException e)
+            {
+                Console.WriteLine("Error loading the rain sounds.\n" + e.ToString() );
+            }
+            _rainSample1.Loop = true;
+            _rainSample2.Loop = true;
         }
 
         public Vector2f GetWindAcceleration()
@@ -62,6 +99,38 @@ namespace JamTemplate
 
         public void Update(float deltaT)
         {
+
+            _flashTimer -= deltaT;
+            if (_flashTimer <= 0.0f)
+            {
+                Flash();
+                _flashTimer += GameProperties.FlashTimerMax;   
+            }
+
+            float  newVal = (float) (150.0f - PennerDoubleAnimation.GetValue(PennerDoubleAnimation.EquationType.QuintEaseIn, GameProperties.FlashTimerMax - _flashTimer, 0, 255, GameProperties.FlashTimerMax)); ;
+
+            if (newVal <= 30.0f)
+            {
+                _flashShapeList.Clear();
+            }
+
+            //Console.WriteLine(newVal);
+            foreach (var s in _flashShapeList)
+            {
+                Color col = s.FillColor;
+                col.A = (byte)newVal;
+                s.FillColor = col;
+            }
+
+            _totalTime += deltaT;
+
+            if (_rainSample2.Status != SoundStatus.Playing && _totalTime >= 45 )
+            { 
+                _rainSample2.Play(); 
+            }
+
+            ScreenEffects.Update(deltaT);
+
 
             if (_setUpTimer <= _setUpTimerMax)
             {
@@ -101,9 +170,11 @@ namespace JamTemplate
                     if (b.Position.Y >= GetHeightAtPosition(b.Position.X))
                     {
                         b.IsAlive = false;
-                        _landscape.DamageLandscape(b.Position.X);
-                        ParticleManager.SpawnMultipleDebris(b.Position, 170, GameProperties.Color02, 5, 0.25f);
-                        ParticleManager.SpawnSmokeCloud(b.Position, 17.5f, 5.0f, GameProperties.Color06);
+
+                        
+                        DamageLandScape(b.Position);
+
+                        _hitSound.Play();
 
                         CheckIfHitPlayer(b);
 
@@ -118,6 +189,70 @@ namespace JamTemplate
             }
 
             ParticleManager.Update(deltaT);
+        }
+
+        private void DamageLandScape(Vector2f pos)
+        {
+            _landscape.DamageLandscape(pos.X);
+            ParticleManager.SpawnMultipleDebris(pos , 170, GameProperties.Color02, 5, 0.25f);
+            ParticleManager.SpawnSmokeCloud(pos, 17.5f, 5.0f, GameProperties.Color06);
+        }
+
+        private void Flash()
+        {
+            _flashSound.Play();
+            Color col = GameProperties.Color03;
+            col.A = 125;
+
+            ScreenEffects.ScreenFlash(col, 0.5f);
+
+            Vector2f startingPos = RandomGenerator.GetRandomVector2fInRect(new FloatRect(0, -10, 800, 10));
+
+
+            bool end = false;
+            for (float y = 0; y <= 600;  )
+            {
+                Vector2f endingPos = new Vector2f(startingPos.X + RandomGenerator.Random.Next(-25, 25), y);
+                if (endingPos.Y >= GetHeightAtPosition(endingPos.X))
+                {
+                    endingPos.Y = GetHeightAtPosition(endingPos.X);
+                    DamageLandScape(endingPos);
+                    end = true;
+                }
+                RectangleShape shape;
+                LineCreator.CreateLine(out shape, startingPos, endingPos);
+                _flashShapeList.Add(shape);
+                startingPos = endingPos;
+                y += 100;
+
+
+                if (y > 300)
+                {
+                    y -= 20;
+                    endingPos = new Vector2f(startingPos.X + RandomGenerator.Random.Next(-GameProperties.FlashMaxXDistance, GameProperties.FlashMaxXDistance), y);
+                    if (endingPos.Y >= GetHeightAtPosition(endingPos.X))
+                    {
+                        endingPos.Y = GetHeightAtPosition(endingPos.X);
+                        DamageLandScape(endingPos);
+                        end = true;
+                    }
+                    LineCreator.CreateLine(out shape, startingPos, endingPos);
+                    _flashShapeList.Add(shape);
+
+                }
+                if (y > 500)
+                {
+                    y -= 20;
+                }
+
+                if (end)
+                {
+                    return;
+                }
+                
+            }
+
+
         }
 
         private void CheckIfHitPlayer(Banana b)
@@ -156,6 +291,7 @@ namespace JamTemplate
             
 
 
+
             _landscape.Draw(rw);
 
             _p1.Draw(rw);
@@ -180,7 +316,14 @@ namespace JamTemplate
             _p2.DrawPlayerAimingLine(rw);
             DrawWindStrengthHudInfo(rw);
 
+            foreach (var s in _flashShapeList)
+            {
+                rw.Draw(s);
+            }
+
+
             ScreenEffects.DrawFadeRadial(rw);
+            ScreenEffects.Draw(rw);
         }
 
 
@@ -249,6 +392,12 @@ namespace JamTemplate
 
         private void InitGame()
         {
+
+            _rainSample1.Play();
+
+            ParticleManager.ResetParticleSystem();
+            ScreenEffects.ResetScreenEffects();
+
             _landscape = new Landscape();
             _p1 = new Player(this, 1);
             _p2 = new Player(this, 2);
@@ -256,6 +405,7 @@ namespace JamTemplate
             
             _bananaList = new System.Collections.Generic.List<Banana>();
             _rainAccelerationArea = new AccelerationArea(new FloatRect(-500, 0, 1500, 600), new Vector2f(0, 0));
+            _flashShapeList = new System.Collections.Generic.List<RectangleShape>(); 
             ParticleManager.AddAccelerationArea(_rainAccelerationArea);
 
              

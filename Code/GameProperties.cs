@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JamUtilities;
 using SFML.Graphics;
 using SFML.Window;
 
@@ -32,12 +33,16 @@ namespace JamTemplate
         public static float ShootStrengthIncrement { get { return 5.0f; } }
         public static float ShootAngleIncrement { get { return 1.5f; } }
 
-        public static float LandScapeDecimator { get { return 12.5f; } }
+        public static float LandScapeDecimator { get { return 10.5f; } }
 
         public static float SetupTimerMax { get { return 2.1f; } }
 
         public static float WindChangeTimer { get { return 8.0f; } }
 
         public static float MaxWindSpeedAcceleration { get { return 15; } }
+
+        public static float FlashTimerMax { get { return 6.4f; } }
+
+        public static int FlashMaxXDistance { get {return 40;}}
     }
 }

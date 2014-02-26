@@ -3,6 +3,7 @@ using SFML.Window;
 using System;
 using System.Collections.Generic;
 using JamUtilities;
+using SFML.Audio;
 
 namespace JamTemplate
 {
@@ -27,8 +28,11 @@ namespace JamTemplate
         private float _shootStrength = 200.0f;
         private int _remainingShots = 1;
 
-        static private Sprite _glowSprite;
-        static private Texture _glowspriteTexture;
+        private static Sprite _glowSprite;
+        private static Texture _glowspriteTexture;
+        private static SoundBuffer _shotSoundBuffer;
+        private static Sound _shotSound;
+
         public struct xy
         {
             public xy (float x, float y)
@@ -70,16 +74,26 @@ namespace JamTemplate
             try
             {
                 LoadGraphics();
+                LoadSounds();
             }
             catch (SFML.LoadingFailedException e)
             {
-                System.Console.Out.WriteLine("Error loading player Graphics.");
+                System.Console.Out.WriteLine("Error loading player Graphics or Sounds.");
                 System.Console.Out.WriteLine(e.ToString());
             }
 
             SetPosition();
 
 
+        }
+
+        private static void LoadSounds()
+        {
+            if(_shotSoundBuffer == null)
+            {
+                _shotSoundBuffer = new SoundBuffer("../SFX/shot.wav");
+                _shotSound = new Sound(_shotSoundBuffer);
+            }
         }
 
         private void SetPosition()
@@ -122,6 +136,7 @@ namespace JamTemplate
         private void Shoot()
         {
 
+            _shotSound.Play();
             double angleInRad = 0.0f;
             Vector2f vel = new Vector2f();
             if (_playerNumber == 1)
@@ -242,21 +257,18 @@ namespace JamTemplate
             if (IsPlayerActive)
             {
                 double angleInRad = MathStuff.DegreeToRadian(_shootAngle);
-                if (_playerNumber == 1)
+                for (int i = 1; i <= 18; i += 3)
                 {
-                    for (int i = 1; i <= 27; i += 3)
+                    if (_playerNumber == 1)
                     {
-                        Vector2f position = Position - new Vector2f(0, _sprite.Sprite.GetGlobalBounds().Height) + new Vector2f((float)Math.Cos(angleInRad), -(float)Math.Sin(angleInRad)) * _shootStrength * i / 100;
+                        Vector2f position = Position - new Vector2f(0, _sprite.Sprite.GetGlobalBounds().Height) + new Vector2f((float)Math.Cos(angleInRad), -(float)Math.Sin(angleInRad)) * _shootStrength * i * 0.03f;
 
                         _glowSprite.Position = position;
                         rw.Draw(_glowSprite);
                     }
-                }
-                else if (_playerNumber == 2)
-                {
-                    for (int i = 1; i <= 27; i += 3)
+                    else if (_playerNumber == 2)
                     {
-                        Vector2f position = Position - new Vector2f(0, _sprite.Sprite.GetGlobalBounds().Height) + new Vector2f(-(float)Math.Cos(angleInRad), -(float)Math.Sin(angleInRad)) * _shootStrength * i / 100;
+                        Vector2f position = Position - new Vector2f(0, _sprite.Sprite.GetGlobalBounds().Height) + new Vector2f(-(float)Math.Cos(angleInRad), -(float)Math.Sin(angleInRad)) * _shootStrength * i *0.03f;
 
                         _glowSprite.Position = position;
                         rw.Draw(_glowSprite);

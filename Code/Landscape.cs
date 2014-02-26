@@ -123,9 +123,12 @@ namespace JamTemplate
             }
             try
             {
-                _heightMap[lastxval] -= GameProperties.LandScapeDecimator;
-                _heightMap[lastxval - Spacing] -= GameProperties.LandScapeDecimator / 2.0f;
-                _heightMap[lastxval + Spacing] -= GameProperties.LandScapeDecimator / 2.0f;
+                
+                _heightMap[lastxval - 2.0f* Spacing] -= GameProperties.LandScapeDecimator / 3.0f;
+                _heightMap[lastxval - Spacing] -= GameProperties.LandScapeDecimator / 1.5f;
+                _heightMap[lastxval] -= GameProperties.LandScapeDecimator ;
+                _heightMap[lastxval + Spacing] -= GameProperties.LandScapeDecimator / 1.5f;
+                _heightMap[lastxval + 2.0f*Spacing] -= GameProperties.LandScapeDecimator / 3.0f;
             }
             catch (KeyNotFoundException e)
             {
