@@ -130,6 +130,7 @@ namespace JamTemplate
             }
 
             ScreenEffects.Update(deltaT);
+            SpriteTrail.Update(deltaT);
 
 
             if (_setUpTimer <= _setUpTimerMax)
@@ -298,12 +299,12 @@ namespace JamTemplate
             _p2.Draw(rw);
 
 
-
+            SpriteTrail.Draw(rw);
             foreach (var b in _bananaList)
             {
                 b.Draw(rw);
             }
-
+            
 
 
             ParticleManager.Draw(rw);

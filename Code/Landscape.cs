@@ -70,7 +70,7 @@ namespace JamTemplate
                 RectangleShape shape = new RectangleShape(new Vector2f(Spacing, v.Value));
                 shape.Origin = new Vector2f(0, v.Value);
 
-                shape.Position = new Vector2f(i * Spacing, 600.0f);
+                shape.Position = new Vector2f(i * Spacing, 600.0f) + ScreenEffects._dragPosition;
 
 
 

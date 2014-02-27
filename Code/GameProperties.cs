@@ -44,5 +44,9 @@ namespace JamTemplate
         public static float FlashTimerMax { get { return 6.4f; } }
 
         public static int FlashMaxXDistance { get {return 40;}}
+
+        public static float BananaTrailTime { get { return 0.05f; } }
+
+        public static float BananaTrailFadeDuration { get { return 0.125f; } }
     }
 }

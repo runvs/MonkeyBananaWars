@@ -17,6 +17,7 @@ namespace JamTemplate
 
         SmartSprite _sprite;
         private float _rotationfactor;
+        private float _trailTimer;
 
 
         public Banana (World world, Vector2f position, Vector2f velocity)
@@ -50,8 +51,15 @@ namespace JamTemplate
         {
             Velocity = Velocity * GameProperties.AirFrictionCoefficient + GetAcceleration() * deltaT;
             Position = Position + Velocity * deltaT;
-
+            
             _sprite.Rotation += deltaT* _rotationfactor;
+
+            _trailTimer += deltaT;
+            if (_trailTimer >= GameProperties.BananaTrailTime)
+            {
+                _trailTimer -= 0.1f;
+                SpriteTrail.AddTrailPosition(_sprite, GameProperties.BananaTrailFadeDuration);
+            }
 
             _sprite.Update(deltaT);
 

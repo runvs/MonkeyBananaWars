@@ -151,7 +151,7 @@ namespace JamTemplate
 
         private void DrawCredits(RenderWindow rw)
         {
-
+            rw.Clear(GameProperties.Color10);
             SmartText.DrawText("Monkey Banana Wars", TextAlignment.MID, new Vector2f(400.0f, 20.0f), 1.5f, rw);
 
             SmartText.DrawText("A Game by", TextAlignment.MID, new Vector2f(400.0f, 100.0f), 0.75f, rw);
@@ -159,6 +159,7 @@ namespace JamTemplate
 
             SmartText.DrawText("Visual Studio 2012 \t C#", TextAlignment.MID, new Vector2f(400, 170), 0.75f, rw);
             SmartText.DrawText("aseprite \t SFML.NET 2.1", TextAlignment.MID, new Vector2f(400, 200), 0.75f, rw);
+            SmartText.DrawText("Cubase 5 \t SFXR", TextAlignment.MID, new Vector2f(400, 230), 0.75f, rw);
 
             SmartText.DrawText("Thanks to", TextAlignment.MID, new Vector2f(400, 350), 0.75f, rw);
             SmartText.DrawText("Families & Friends for their great support", TextAlignment.MID, new Vector2f(400, 375), 0.75f, rw);
