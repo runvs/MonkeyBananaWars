@@ -410,23 +410,28 @@ namespace JamTemplate
             _flashShapeList = new System.Collections.Generic.List<RectangleShape>(); 
             ParticleManager.AddAccelerationArea(_rainAccelerationArea);
 
+            Color cloudColor = GameProperties.Color08;
+            Color backgroundColor = GameProperties.Color09;
              
             _cloudList = new System.Collections.Generic.List<AreatricCloud>();
-            for (int i = 0; i != 5; i++ )
+            for (int i = 0; i != 25; i++)
             {
-                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-10, 810), new Vector2f(0, 500)), GameProperties.Color08);
+                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-75, 875), new Vector2f(100, 500)), GameProperties.Color09, GameProperties.Color10);
                 _cloudList.Add(ac);
             }
-            for (int i = 0; i != 10; i++)
+            for (int i = 0; i != 40; i++)
             {
-                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-10, 810), new Vector2f(0, 300)), GameProperties.Color08);
+                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-75, 875), new Vector2f(0, 300)), GameProperties.Color08, GameProperties.Color09);
                 _cloudList.Add(ac);
             }
-            for (int i = 0; i != 10; i++)
+            for (int i = 0; i != 50; i++)
             {
-                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-10, 810), new Vector2f(0, 100)), GameProperties.Color08);
+                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-75, 875), new Vector2f(-100, 250)), GameProperties.Color07, GameProperties.Color08);
                 _cloudList.Add(ac);
             }
+
+
+          
         }
 
         public void AddBanana (Banana b)
