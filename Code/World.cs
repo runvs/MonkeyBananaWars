@@ -107,7 +107,7 @@ namespace JamTemplate
                 _flashTimer += GameProperties.FlashTimerMax;   
             }
 
-            float  newVal = (float) (150.0f - PennerDoubleAnimation.GetValue(PennerDoubleAnimation.EquationType.QuintEaseIn, GameProperties.FlashTimerMax - _flashTimer, 0, 255, GameProperties.FlashTimerMax)); ;
+            float  newVal = (float) (150.0f - PennerDoubleAnimation.GetValue(PennerDoubleAnimation.EquationType.QuintEaseOut, GameProperties.FlashTimerMax - _flashTimer, 0, 150, GameProperties.FlashTimerMax)); ;
 
             if (newVal <= 30.0f)
             {
@@ -412,9 +412,19 @@ namespace JamTemplate
 
              
             _cloudList = new System.Collections.Generic.List<AreatricCloud>();
-            for (int i = 0; i != 15; i++ )
+            for (int i = 0; i != 5; i++ )
             {
-                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(0, 800), new Vector2f(0, 600)), GameProperties.Color08);
+                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-10, 810), new Vector2f(0, 500)), GameProperties.Color08);
+                _cloudList.Add(ac);
+            }
+            for (int i = 0; i != 10; i++)
+            {
+                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-10, 810), new Vector2f(0, 300)), GameProperties.Color08);
+                _cloudList.Add(ac);
+            }
+            for (int i = 0; i != 10; i++)
+            {
+                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-10, 810), new Vector2f(0, 100)), GameProperties.Color08);
                 _cloudList.Add(ac);
             }
         }
