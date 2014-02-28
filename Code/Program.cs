@@ -21,7 +21,7 @@ namespace JamTemplate
         {
             var applicationWindow = new RenderWindow(new VideoMode(800, 600, 32), "Monkey Banana Wars");
 
-            applicationWindow.SetFramerateLimit(70);
+            applicationWindow.SetFramerateLimit(100);
             applicationWindow.SetVerticalSyncEnabled(true);
 
             applicationWindow.Closed += new EventHandler(OnClose);

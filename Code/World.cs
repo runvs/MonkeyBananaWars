@@ -209,6 +209,7 @@ namespace JamTemplate
 
             Vector2f startingPos = RandomGenerator.GetRandomVector2fInRect(new FloatRect(0, -10, 800, 10));
 
+            Timing.Pause(0.09f);
 
             bool end = false;
             for (float y = 0; y <= 600;  )

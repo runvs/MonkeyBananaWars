@@ -96,7 +96,7 @@ namespace JamTemplate
             CanBeQuit = false;
             if (_gameState == State.Game)
             {
-                _myWorld.Update(deltaT);
+                _myWorld.Update(Timing.Update(deltaT));
 
                 if (_myWorld.IsGameOver())
                 {
