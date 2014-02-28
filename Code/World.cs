@@ -195,8 +195,8 @@ namespace JamTemplate
         private void DamageLandScape(Vector2f pos)
         {
             _landscape.DamageLandscape(pos.X);
-            ParticleManager.SpawnMultipleDebris(pos , 170, GameProperties.Color02, 5, 0.25f);
-            ParticleManager.SpawnSmokeCloud(pos, 17.5f, 5.0f, GameProperties.Color06);
+            ParticleManager.SpawnMultipleDebris(pos , 190, GameProperties.Color02, 5, 0.35f);
+            ParticleManager.SpawnSmokeCloud(pos, 20.5f, 5.0f, GameProperties.Color06);
         }
 
         private void Flash()
@@ -421,7 +421,7 @@ namespace JamTemplate
             }
             for (int i = 0; i != 40; i++)
             {
-                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-75, 875), new Vector2f(0, 300)), GameProperties.Color08, GameProperties.Color09);
+                AreatricCloud ac = new AreatricCloud(RandomGenerator.GetRandomVector2f(new Vector2f(-75, 875), new Vector2f(0, 200)), GameProperties.Color08, GameProperties.Color09);
                 _cloudList.Add(ac);
             }
             for (int i = 0; i != 50; i++)

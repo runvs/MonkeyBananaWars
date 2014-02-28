@@ -304,8 +304,16 @@ namespace JamTemplate
         private void LoadGraphics()
         {
            _sprite = new SmartSprite("../GFX/player.png");
-           _sprite.Scale(0.75f);
+           if (_playerNumber == 2)
+           {
+               _sprite.Scale(-0.75f, 0.75f);
+           }
+           else
+           {
+               _sprite.Scale(0.75f);
+           }
            _sprite.Sprite.Origin = new Vector2f(_sprite.Sprite.GetLocalBounds().Width / 2, _sprite.Sprite.GetLocalBounds().Height);
+           
         }
 
         #endregion Methods

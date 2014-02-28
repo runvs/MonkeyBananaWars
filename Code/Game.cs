@@ -162,7 +162,8 @@ namespace JamTemplate
             SmartText.DrawText("Cubase 5 \t SFXR", TextAlignment.MID, new Vector2f(400, 230), 0.75f, rw);
 
             SmartText.DrawText("Thanks to", TextAlignment.MID, new Vector2f(400, 350), 0.75f, rw);
-            SmartText.DrawText("Families & Friends for their great support", TextAlignment.MID, new Vector2f(400, 375), 0.75f, rw);
+            SmartText.DrawText("Julian @Thunraz Dinges as Master-GFXler", TextAlignment.MID, new Vector2f(400, 375), 0.75f, rw);
+            SmartText.DrawText("Families & Friends for their great support", TextAlignment.MID, new Vector2f(400, 400), 0.75f, rw);
 
             SmartText.DrawText("Created February 2014", TextAlignment.MID, new Vector2f(400.0f, 500.0f), 0.75f, rw);
 
